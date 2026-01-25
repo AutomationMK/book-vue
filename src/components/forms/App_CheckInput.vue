@@ -9,7 +9,7 @@
 
 <script>
     export default {
-        name: 'App_CheckInput',
+        name: 'CheckInput',
         props: ["label", "required", "name", "value", "checked"],
     }
 </script>

@@ -5,7 +5,7 @@
                 <h1 class="mt-5">Login</h1>
                 <hr>
 
-                <form-tag @myevent="submitHandler">
+                <form-tag @myevent="submitHandler" name="myForm" event="myevent">
                     <text-input v-model="email" label="Email" type="email" name="email" required="true"></text-input>
                     <text-input v-model="password" label="Password" type="password" name="password"
                         required="true"></text-input>

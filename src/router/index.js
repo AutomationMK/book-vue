@@ -5,7 +5,7 @@ const routes = [
     {
         path: "/",
         name: "Home",
-        component: Body,
+        component: App_Body,
     },
 ];
 

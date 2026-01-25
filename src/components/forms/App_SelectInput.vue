@@ -11,7 +11,7 @@
 
 <script>
     export default {
-        name: "App_SelectInput",
+        name: "SelectInput",
         props: ["items", "name", "required", "label"],
     }
 </script>

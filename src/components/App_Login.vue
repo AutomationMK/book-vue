@@ -19,7 +19,7 @@
 </template>
 
 <script>
-    import TextInput from './forms/App_TextInput.vue'
+    import TextInput from './forms/TextInput.vue'
 
     export default {
         name: 'App_Login',

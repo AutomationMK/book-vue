@@ -5,9 +5,10 @@
                 <h1 class="mt-5">Login</h1>
                 <hr>
 
-                <form-tag>
-                    <text-input label="Email" type="email" name="email" required="true"></text-input>
-                    <text-input label="Password" type="password" name="password" required="true"></text-input>
+                <form-tag @myevent="submitHandler">
+                    <text-input v-model="email" label="Email" type="email" name="email" required="true"></text-input>
+                    <text-input v-model="password" label="Password" type="password" name="password"
+                        required="true"></text-input>
 
                     <hr>
                     <input type="submit" class="btn btn-primary" value="Login">
@@ -27,9 +28,20 @@
             FormTag,
             TextInput,
         },
+        data() {
+            return {
+                email: "",
+                password: "",
+            }
+        },
+        methods: {
+            submitHandler() {
+                console.log("submitHandler called - success!");
+            }
+        },
         mounted() {
             (function () {
-                'use strict'
+                'use strict';
 
                 var forms = document.querySelectorAll('.needs-validation');
                 Array.prototype.slice.call(forms)

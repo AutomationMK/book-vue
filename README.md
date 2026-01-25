@@ -2,7 +2,7 @@
 
 ## Description
 
-This is a simple web application for book information
+This is a simple VueJS web application for book information.
 A go backend is used and is inspired by following along
 tsawler's Working with Vue 3 and Go (Golang) udemy course.
 

@@ -57,6 +57,6 @@ func (app *application) serv() error {
 		w.Write(out)
 	})
 
-	app.infoLog.Println("API listening on pont", app.config.port)
+	app.infoLog.Println("API listening on port", app.config.port)
 	return http.ListenAndServe(fmt.Sprintf(":%d", app.config.port), nil)
 }

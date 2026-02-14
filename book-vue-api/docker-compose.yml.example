@@ -1,0 +1,21 @@
+services:
+  postgres:
+    image: 'postgres:18'
+    container_name: book-vue
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: vueapi
+    ports:
+      - '5431:5432'
+    volumes:
+      - ./db-data:/var/lib/postgresql
+
+  # start mailhog
+  mailhog:
+    image: 'mailhog/mailhog:latest'
+    ports:
+      -"1025:1025"
+      -"8025:8025"
+    restart: always

@@ -11,8 +11,6 @@
                         required="true"></text-input>
 
                     <hr>
-                    Email: {{email}}
-                    <hr>
                     <input type="submit" class="btn btn-primary" value="Login">
                 </form-tag>
             </div>
@@ -23,6 +21,7 @@
 <script>
     import FormTag from './forms/FormTag.vue';
     import TextInput from './forms/TextInput.vue';
+    import {store} from './store.js';
 
     export default {
         name: 'App_Login',
@@ -34,6 +33,7 @@
             return {
                 email: "",
                 password: "",
+                store,
             }
         },
         methods: {
@@ -52,11 +52,12 @@
 
                 fetch("http://localhost:8081/users/login", requestOptions)
                     .then((response) => response.json())
-                    .then((data) => {
-                        if (data.error) {
-                            console.log("Error:", data.message);
+                    .then((response) => {
+                        if (response.error) {
+                            console.log("Error:", response.message);
                         } else {
-                            console.log("Token:", data.data.token.token);
+                            console.log("Token:", response.data.token.token);
+                            store.token = response.data.token.token;
                         }
                     })
             }

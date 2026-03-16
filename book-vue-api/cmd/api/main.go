@@ -8,6 +8,7 @@ import (
 	"os"
 
 	"github.com/AutomationMK/book-vue/internal/driver"
+	"github.com/AutomationMK/book-vue/internal/models"
 )
 
 type config struct {
@@ -18,7 +19,7 @@ type application struct {
 	config   config
 	infoLog  *log.Logger
 	errorLog *log.Logger
-	db       *driver.DB
+	models   models.Models
 }
 
 func main() {
@@ -39,7 +40,7 @@ func main() {
 		config:   cfg,
 		infoLog:  infoLog,
 		errorLog: errorLog,
-		db:       db,
+		models:   models.New(db.SQL),
 	}
 
 	err = app.serv()

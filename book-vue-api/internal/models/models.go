@@ -1,6 +1,28 @@
 package models
 
-import "time"
+import (
+	"time"
+
+	"github.com/jackc/pgx/v5"
+)
+
+const dbTimeout = time.Second * 3
+
+var db *pgx.Conn
+
+func New(dbPool *pgx.Conn) Models {
+	db = dbPool
+
+	return Models{
+		User:  User{},
+		Token: Token{},
+	}
+}
+
+type Models struct {
+	User  User
+	Token Token
+}
 
 type User struct {
 	ID        int       `json:"id"`

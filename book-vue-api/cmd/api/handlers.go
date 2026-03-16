@@ -10,6 +10,8 @@ type jsonResponse struct {
 	Data    any    `json:"data"`
 }
 
+type envelope map[string]any
+
 func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 	type credentials struct {
 		UserName string `json:"email"`

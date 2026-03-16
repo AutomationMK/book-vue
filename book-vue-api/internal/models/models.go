@@ -405,3 +405,17 @@ func (t *Token) Insert(token Token, u User) error {
 
 	return nil
 }
+
+// DeleteByToken deletes a token from the database with a token tag input
+func (t *Token) DeleteByToken(plaintext string) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `DELETE FROM tokens WHERE token = $1`
+	_, err := db.Exec(ctx, stmt, plaintext)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

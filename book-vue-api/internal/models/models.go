@@ -101,6 +101,34 @@ func (u *User) GetByEmail(email string) (*User, error) {
 	return &user, nil
 }
 
+// GetById gets a user from the database that matches the id param
+func (u *User) GetById(id int) (*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `
+		SELECT id, email, first_name, last_name, password, created_at, updated_at
+		FROM users WHERE id = $1`
+
+	var user User
+	row := db.QueryRow(ctx, stmt, id)
+
+	err := row.Scan(
+		&user.ID,
+		&user.Email,
+		&user.FirstName,
+		&user.LastName,
+		&user.Password,
+		&user.CreatedAt,
+		&user.UpdatedAt,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
 type Token struct {
 	ID        int       `json:"id"`
 	UserID    int       `json:"user_id"`

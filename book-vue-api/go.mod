@@ -1,4 +1,4 @@
-module book-vue-api
+module github.com/AutomationMK/book-vue
 
 go 1.25.6
 

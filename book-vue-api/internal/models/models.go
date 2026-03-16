@@ -1,6 +1,7 @@
 package models
 
 import (
+	"context"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -33,6 +34,43 @@ type User struct {
 	CreatedAt time.Time `json:"created_at"`
 	UpdatedAt time.Time `json:"updated_at"`
 	Token     Token     `json:"token"`
+}
+
+// GetAll gets all users in the database ordered by last_name
+func (u *User) GetAll() ([]*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `
+		SELECT id, email, first_name, last_name, password, created_at, updated_at
+		FROM users ORDER BY last_name`
+
+	rows, err := db.Query(ctx, stmt)
+	if err != nil {
+		return nil, err
+	}
+	defer rows.Close()
+
+	var users []*User
+
+	for rows.Next() {
+		var user User
+		err := rows.Scan(
+			&user.ID,
+			&user.Email,
+			&user.FirstName,
+			&user.LastName,
+			&user.Password,
+			&user.CreatedAt,
+			&user.UpdatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+		users = append(users, &user)
+	}
+
+	return users, nil
 }
 
 type Token struct {

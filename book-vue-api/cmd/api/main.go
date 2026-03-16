@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"net/http"
@@ -32,6 +33,7 @@ func main() {
 	if err != nil {
 		log.Fatalf("Connot connect to database: %s", err)
 	}
+	defer db.SQL.Close(context.Background())
 
 	app := &application{
 		config:   cfg,

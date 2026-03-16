@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/jackc/pgx/v5"
+	"golang.org/x/crypto/bcrypt"
 )
 
 const dbTimeout = time.Second * 3
@@ -171,6 +172,38 @@ func (u *User) Delete() error {
 	}
 
 	return nil
+}
+
+// Insert inserts a new user in the database
+func (u *User) Insert(user User) (int, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	hashedPassword, err := bcrypt.GenerateFromPassword([]byte(user.Password), 12)
+	if err != nil {
+		return 0, err
+	}
+
+	var newID int
+	stmt := `
+		INSERT INTO users (email, first_name, last_name,
+			password, created_at, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
+
+	err = db.QueryRow(ctx, stmt,
+		user.Email,
+		user.FirstName,
+		user.LastName,
+		hashedPassword,
+		time.Now(),
+		time.Now(),
+	).Scan(&newID)
+
+	if err != nil {
+		return 0, err
+	}
+
+	return newID, nil
 }
 
 type Token struct {

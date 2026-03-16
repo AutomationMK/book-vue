@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/AutomationMK/book-vue/interal/driver"
+	"github.com/AutomationMK/book-vue/internal/driver"
 )
 
 type config struct {

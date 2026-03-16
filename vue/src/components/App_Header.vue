@@ -13,7 +13,7 @@
                     </li>
                     <li class="nav-item">
                         <router-link v-if="store.token == ''" class="nav-link" to="/login">Login</router-link>
-                        <router-link v-else class="nav-link" to="/logout">Logout</router-link>
+                        <a href="javascript:void(0);" v-else class="nav-link" @click="logout">Logout</a>
                     </li>
                 </ul>
             </div>
@@ -23,11 +23,18 @@
 
 <script>
     import {store} from './store.js'
+    import router from './../router/index.js'
 
     export default {
         data() {
             return {
                 store
+            }
+        },
+        methods: {
+            logout() {
+                store.token = "";
+                router.push("/login");
             }
         }
     }

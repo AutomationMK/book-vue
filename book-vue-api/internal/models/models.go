@@ -6,6 +6,8 @@ import (
 	"crypto/sha256"
 	"encoding/base32"
 	"errors"
+	"net/http"
+	"strings"
 	"time"
 
 	"github.com/jackc/pgx/v5"
@@ -331,4 +333,39 @@ func (t *Token) GenerateToken(userID int, ttl time.Duration) (*Token, error) {
 	token.TokenHash = hash[:]
 
 	return token, nil
+}
+
+// AuthenticateToken gets a User from the database after authenticating the token
+func (t *Token) AuthenticateToken(r *http.Request) (*User, error) {
+	authorizationHeader := r.Header.Get("Authorization")
+	if authorizationHeader == "" {
+		return nil, errors.New("no authorization header received")
+	}
+
+	headerParts := strings.Split(authorizationHeader, " ")
+	if len(headerParts) != 2 || headerParts[0] != "Bearer" {
+		return nil, errors.New("no valid authorization header received")
+	}
+
+	token := headerParts[1]
+
+	if len(token) != 26 {
+		return nil, errors.New("token wrong size")
+	}
+
+	databaseToken, err := t.GetByToken(token)
+	if err != nil {
+		return nil, errors.New("no mathing token found")
+	}
+
+	if databaseToken.Expiry.Before(time.Now()) {
+		return nil, errors.New("expired token")
+	}
+
+	user, err := t.GetUserForToken(*databaseToken)
+	if err != nil {
+		return nil, errors.New("no matching user found")
+	}
+
+	return user, nil
 }

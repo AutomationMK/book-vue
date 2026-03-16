@@ -2,7 +2,8 @@
     <div class="mb-3">
         <label :for="name" class="form-label">{{label}}</label>
         <input :type="type" :name="name" :placeholder="placeholder" :required="required" :min="min" :max="max"
-            :value="value" :autocomplete="name + '-new'" class="form-control">
+            :value="modelValue" :autocomplete="name + '-new'" @input="$emit('update:modelValue', $event.target.value)"
+            class="form-control">
     </div>
 </template>
 
@@ -17,7 +18,7 @@
             required: String,
             min: String,
             max: String,
-            value: String,
+            modelValue: String,
         }
     }
 </script>

@@ -156,6 +156,23 @@ func (u *User) Update() error {
 	return nil
 }
 
+// Delete deletes a user from the database
+func (u *User) Delete() error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `
+		DELETE FROM users
+		WHERE id = $1`
+
+	_, err := db.Exec(ctx, stmt, u.ID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type Token struct {
 	ID        int       `json:"id"`
 	UserID    int       `json:"user_id"`

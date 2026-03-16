@@ -129,6 +129,33 @@ func (u *User) GetById(id int) (*User, error) {
 	return &user, nil
 }
 
+// Update updates the user data in the database
+func (u *User) Update() error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `
+		UPDATE users SET
+			email = $1,
+			first_name = $2,
+			last_name = $3,
+			updated_at = $4,
+			where id = $5`
+
+	_, err := db.Exec(ctx, stmt,
+		u.Email,
+		u.FirstName,
+		u.LastName,
+		time.Now(),
+		u.ID,
+	)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 type Token struct {
 	ID        int       `json:"id"`
 	UserID    int       `json:"user_id"`

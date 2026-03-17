@@ -61,8 +61,9 @@
                         }
                         this.ready = true;
                     })
+            } else {
+                this.ready = true;
             }
-            this.ready = true;
         },
         data() {
             return {

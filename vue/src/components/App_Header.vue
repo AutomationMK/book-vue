@@ -74,7 +74,7 @@
                     body: JSON.stringify(payload),
                 }
 
-                fetch("http://localhost:8081/users/logout", requestOptions)
+                fetch(process.env.VUE_APP_API_URL + "/users/logout", requestOptions)
                     .then((response) => response.json())
                     .then((response) => {
                         if (response.error) {

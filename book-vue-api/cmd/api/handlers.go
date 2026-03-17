@@ -4,6 +4,8 @@ import (
 	"errors"
 	"net/http"
 	"time"
+
+	"github.com/AutomationMK/book-vue/internal/models"
 )
 
 type jsonResponse struct {
@@ -98,4 +100,22 @@ func (app *application) Logout(w http.ResponseWriter, r *http.Request) {
 	}
 
 	_ = app.writeJSON(w, http.StatusOK, payload)
+}
+
+// AllUsers gets all users from database and returns json response
+func (app *application) AllUsers(w http.ResponseWriter, r *http.Request) {
+	var users models.User
+	all, err := users.GetAll()
+	if err != nil {
+		app.errorLog.Println(err)
+		return
+	}
+
+	payload := jsonResponse{
+		Error:   false,
+		Message: "success",
+		Data:    envelope{"users": all},
+	}
+
+	app.writeJSON(w, http.StatusOK, payload)
 }

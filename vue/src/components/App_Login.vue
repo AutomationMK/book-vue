@@ -23,7 +23,6 @@
     import TextInput from './forms/TextInput.vue';
     import {store} from './store.js';
     import router from './../router/index.js'
-    import notie from 'notie'
     import Security from './security.js'
 
     export default {
@@ -50,12 +49,7 @@
                     .then((response) => response.json())
                     .then((response) => {
                         if (response.error) {
-                            notie.alert({
-                                type: 'error',
-                                text: response.message,
-                                // stay: true
-                                // position: 'bottom',
-                            });
+                            this.$emit('error', response.message);
                         } else {
                             store.token = response.data.token.token;
 

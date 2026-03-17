@@ -173,6 +173,7 @@ func (app *application) EditUser(w http.ResponseWriter, r *http.Request) {
 	_ = app.writeJSON(w, http.StatusAccepted, payload)
 }
 
+// GetUser gets a user from the database given a json post request with id
 func (app *application) GetUser(w http.ResponseWriter, r *http.Request) {
 	userID, err := strconv.Atoi(chi.URLParam(r, "id"))
 	if err != nil {

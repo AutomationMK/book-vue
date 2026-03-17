@@ -4,7 +4,7 @@
             <div class="col">
                 <h1 class="mt-3">User Edit</h1>
                 <hr>
-                <form-tag @userEditEvent="submitHandler" name="userform" event="userEditEvent">
+                <form-tag v-if="this.ready" @userEditEvent="submitHandler" name="userform" event="userEditEvent">
                     <text-input v-model="user.first_name" type="text" required="true" label="First Name"
                         :value="user.first_name" name="first-name"></text-input>
                     <text-input v-model="user.last_name" type="text" required="true" label="Last Name"
@@ -29,6 +29,7 @@
                     </div>
                     <div class="clearfix"></div>
                 </form-tag>
+                <p v-else>Loading...</p>
             </div>
         </div>
     </div>
@@ -58,8 +59,10 @@
                             // we want password to be empty for existing users
                             this.user.password = "";
                         }
+                        this.ready = true;
                     })
             }
+            this.ready = true;
         },
         data() {
             return {
@@ -71,6 +74,7 @@
                     password: "",
                 },
                 store,
+                ready: false,
             }
         },
         components: {

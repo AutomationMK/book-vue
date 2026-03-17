@@ -29,6 +29,7 @@ func (app *application) routes() http.Handler {
 		mux.Use(app.AuthToken)
 
 		mux.Post("/users", app.AllUsers)
+		mux.Post("/users/save", app.EditUser)
 	})
 
 	mux.Get("/users/add", func(w http.ResponseWriter, r *http.Request) {

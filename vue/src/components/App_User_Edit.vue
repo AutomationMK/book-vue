@@ -46,7 +46,20 @@
 
             if (parseInt(String(this.$route.params.userId), 10) > 0) {
                 // editing an existing user
-                // TODO - get user from database
+                fetch(`${process.env.VUE_APP_API_URL}/admin/users/get/${this.$route.params.userId}`, Security.requestOptions(""))
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.error) {
+                            notie.alert({
+                                type: 'error',
+                                text: data.message,
+                            })
+                        } else {
+                            this.user = data;
+                            // we want password to be empty for existing users
+                            this.user.password = "";
+                        }
+                    })
             }
         },
         data() {

@@ -180,6 +180,23 @@ func (u *User) Delete() error {
 	return nil
 }
 
+// DeleteById deletes a user from the database based in id input
+func (u *User) DeleteById(id int) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `
+		DELETE FROM users
+		WHERE id = $1`
+
+	_, err := db.Exec(ctx, stmt, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // Insert inserts a new user in the database
 func (u *User) Insert(user User) (int, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)

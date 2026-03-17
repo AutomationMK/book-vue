@@ -16,10 +16,11 @@ type config struct {
 }
 
 type application struct {
-	config   config
-	infoLog  *log.Logger
-	errorLog *log.Logger
-	models   models.Models
+	config      config
+	infoLog     *log.Logger
+	errorLog    *log.Logger
+	models      models.Models
+	environment string
 }
 
 func main() {
@@ -30,6 +31,8 @@ func main() {
 	errorLog := log.New(os.Stdout, "Error\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	dsn := os.Getenv("DSN")
+	environment := os.Getenv("ENV")
+
 	db, err := driver.ConnectSQL(dsn)
 	if err != nil {
 		log.Fatalf("Connot connect to database: %s", err)
@@ -37,10 +40,11 @@ func main() {
 	defer db.SQL.Close(context.Background())
 
 	app := &application{
-		config:   cfg,
-		infoLog:  infoLog,
-		errorLog: errorLog,
-		models:   models.New(db.SQL),
+		config:      cfg,
+		infoLog:     infoLog,
+		errorLog:    errorLog,
+		models:      models.New(db.SQL),
+		environment: environment,
 	}
 
 	err = app.serv()

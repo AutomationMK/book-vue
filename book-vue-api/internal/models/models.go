@@ -94,7 +94,7 @@ func (u *User) GetByEmail(email string) (*User, error) {
 	defer cancel()
 
 	stmt := `
-		SELECT id, email, first_name, last_name, password, created_at, updated_at
+		SELECT id, email, first_name, last_name, password, user_active, created_at, updated_at
 		FROM users WHERE email = $1`
 
 	var user User
@@ -106,6 +106,7 @@ func (u *User) GetByEmail(email string) (*User, error) {
 		&user.FirstName,
 		&user.LastName,
 		&user.Password,
+		&user.UserActive,
 		&user.CreatedAt,
 		&user.UpdatedAt,
 	)

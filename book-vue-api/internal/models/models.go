@@ -33,14 +33,15 @@ type Models struct {
 }
 
 type User struct {
-	ID        int       `json:"id"`
-	Email     string    `json:"email"`
-	FirstName string    `json:"first_name,omitempty"`
-	LastName  string    `json:"last_name,omitempty"`
-	Password  string    `json:"password"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
-	Token     Token     `json:"token"`
+	ID         int       `json:"id"`
+	Email      string    `json:"email"`
+	FirstName  string    `json:"first_name,omitempty"`
+	LastName   string    `json:"last_name,omitempty"`
+	Password   string    `json:"password"`
+	UserActive int       `json:"user_active"`
+	CreatedAt  time.Time `json:"created_at"`
+	UpdatedAt  time.Time `json:"updated_at"`
+	Token      Token     `json:"token"`
 }
 
 // GetAll gets all users in the database ordered by last_name
@@ -49,7 +50,12 @@ func (u *User) GetAll() ([]*User, error) {
 	defer cancel()
 
 	stmt := `
-		SELECT id, email, first_name, last_name, password, created_at, updated_at
+		SELECT id, email, first_name, last_name, password, user_active, created_at, updated_at,
+		CASE WHEN (
+			SELECT COUNT(id) FROM tokens AS t
+			WHERE user_id = users.id AND t.expiry > NOW()
+			) > 0 THEN 1 ELSE 0
+		END AS has_token
 		FROM users ORDER BY last_name`
 
 	rows, err := db.Query(ctx, stmt)
@@ -68,8 +74,10 @@ func (u *User) GetAll() ([]*User, error) {
 			&user.FirstName,
 			&user.LastName,
 			&user.Password,
+			&user.UserActive,
 			&user.CreatedAt,
 			&user.UpdatedAt,
+			&user.Token.ID,
 		)
 		if err != nil {
 			return nil, err

@@ -154,6 +154,7 @@ func (app *application) EditUser(w http.ResponseWriter, r *http.Request) {
 		u.Email = user.Email
 		u.FirstName = user.FirstName
 		u.LastName = user.LastName
+		u.UserActive = user.UserActive
 
 		if err := u.Update(); err != nil {
 			app.errorJSON(w, err)

@@ -22,14 +22,15 @@
                         name="password"></text-input>
 
                     <div class="form-check">
-                        <input v-model="user.active" class="form-check-input" type="radio" id="user-active" :value="1">
+                        <input v-model="user.user_active" class="form-check-input" type="radio" id="user-active"
+                            :value="1">
                         <label for="user-active" class="form-check-label">
                             Active
                         </label>
                     </div>
 
                     <div class="form-check">
-                        <input v-model="user.active" class="form-check-input" type="radio" id="user-active-2"
+                        <input v-model="user.user_active" class="form-check-input" type="radio" id="user-active-2"
                             :value="0">
                         <label for="user-active-2" class="form-check-label">
                             Inactive
@@ -92,7 +93,7 @@
                     last_name: "",
                     email: "",
                     password: "",
-                    active: 0,
+                    user_active: 0,
                 },
                 store,
                 ready: false,
@@ -110,6 +111,7 @@
                     last_name: this.user.last_name,
                     email: this.user.email,
                     password: this.user.password,
+                    user_active: this.user.user_active,
                 }
 
                 fetch(`${process.env.VUE_APP_API_URL}/admin/users/save`, Security.requestOptions(payload))

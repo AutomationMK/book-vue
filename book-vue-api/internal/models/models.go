@@ -222,14 +222,15 @@ func (u *User) Insert(user User) (int, error) {
 	var newID int
 	stmt := `
 		INSERT INTO users (email, first_name, last_name,
-			password, created_at, updated_at)
-		VALUES ($1, $2, $3, $4, $5, $6) RETURNING id`
+			password, user_active, created_at, updated_at)
+		VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING id`
 
 	err = db.QueryRow(ctx, stmt,
 		user.Email,
 		user.FirstName,
 		user.LastName,
 		hashedPassword,
+		user.UserActive,
 		time.Now(),
 		time.Now(),
 	).Scan(&newID)

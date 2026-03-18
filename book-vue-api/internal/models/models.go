@@ -123,7 +123,7 @@ func (u *User) GetById(id int) (*User, error) {
 	defer cancel()
 
 	stmt := `
-		SELECT id, email, first_name, last_name, password, created_at, updated_at
+		SELECT id, email, first_name, last_name, password, user_active, created_at, updated_at
 		FROM users WHERE id = $1`
 
 	var user User
@@ -135,6 +135,7 @@ func (u *User) GetById(id int) (*User, error) {
 		&user.FirstName,
 		&user.LastName,
 		&user.Password,
+		&user.UserActive,
 		&user.CreatedAt,
 		&user.UpdatedAt,
 	)

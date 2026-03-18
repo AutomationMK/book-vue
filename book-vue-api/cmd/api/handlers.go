@@ -60,6 +60,12 @@ func (app *application) Login(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// make sure user is active
+	if user.UserActive == 0 {
+		app.errorJSON(w, errors.New("user is not active"))
+		return
+	}
+
 	// save it to the database
 	err = app.models.Token.Insert(*token, *user)
 	if err != nil {

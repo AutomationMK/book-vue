@@ -455,6 +455,20 @@ func (t *Token) DeleteByToken(plaintext string) error {
 	return nil
 }
 
+// DeleteTokensForUser deletes a token row based on user id
+func (t *Token) DeleteTokensForUser(id int) error {
+	ctx, cancel := context.WithTimeout(context.Background(), dbTimeout)
+	defer cancel()
+
+	stmt := `DELETE FROM tokens WHERE user_id = $1`
+	_, err := db.Exec(ctx, stmt, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 // ValidToken checks if the token exists and is valid
 func (t *Token) ValidToken(plaintext string) (bool, error) {
 	token, err := t.GetByToken(plaintext)

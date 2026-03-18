@@ -156,13 +156,15 @@ func (u *User) Update() error {
 			email = $1,
 			first_name = $2,
 			last_name = $3,
-			updated_at = $4
+			user_active = $4,
+			updated_at = $5
 			WHERE id = $5`
 
 	_, err := db.Exec(ctx, stmt,
 		u.Email,
 		u.FirstName,
 		u.LastName,
+		u.UserActive,
 		time.Now(),
 		u.ID,
 	)

@@ -7,15 +7,20 @@
                 <form-tag v-if="this.ready" @userEditEvent="submitHandler" name="userform" event="userEditEvent">
                     <text-input v-model="user.first_name" type="text" required="true" label="First Name"
                         :value="user.first_name" name="first-name"></text-input>
+
                     <text-input v-model="user.last_name" type="text" required="true" label="Last Name"
                         :value="user.last_name" name="last-name"></text-input>
+
                     <text-input v-model="user.email" type="email" required="true" label="Email" :value="user.email"
                         name="email"></text-input>
+
                     <text-input v-if="this.user.id === 0" v-model="user.password" type="password" required="true"
                         label="Password" :value="user.password" name="password"></text-input>
+
                     <text-input v-else v-model="user.password" type="password" label="Password"
                         help="Leave empty to keep existing password" :value="user.password"
                         name="password"></text-input>
+
                     <hr>
                     <div class="float-start">
                         <input type="submit" class="btn btn-primary me-2" value="Save">
@@ -73,6 +78,7 @@
                     last_name: "",
                     email: "",
                     password: "",
+                    active: 0,
                 },
                 store,
                 ready: false,

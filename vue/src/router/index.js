@@ -7,6 +7,7 @@ import App_Books_Admin from "./../components/App_Books_Admin.vue";
 import App_Book_Edit from "./../components/App_Book_Edit.vue";
 import App_Users from "./../components/App_Users.vue";
 import App_User_Edit from "./../components/App_User_Edit.vue";
+import Security from "./../components/security.js";
 
 const routes = [
     {
@@ -52,4 +53,7 @@ const routes = [
 ];
 
 const router = createRouter({ history: createWebHistory(), routes });
+router.beforeEach(() => {
+    Security.checkToken();
+});
 export default router;

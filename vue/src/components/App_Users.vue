@@ -85,6 +85,7 @@
                                         this.$emit('error', data.message);
                                     } else {
                                         this.$emit('success', data.message);
+                                        this.$emit('forceUpdate');
                                     }
                                 })
                         }

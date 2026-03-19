@@ -78,7 +78,15 @@
                         text: "Are you sure you want to log this user out?",
                         submitText: "Logout",
                         submitCallback: () => {
-                            console.log("Would log out user id", id);
+                            fetch(`${process.env.VUE_APP_API_URL}/admin/log-user-out/${id}`, Security.requestOptions(""))
+                                .then((response) => response.json())
+                                .then((data) => {
+                                    if (data.error) {
+                                        this.$emit('error', data.message);
+                                    } else {
+                                        this.$emit('success', data.message);
+                                    }
+                                })
                         }
                     })
                 } else {

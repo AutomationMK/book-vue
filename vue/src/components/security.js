@@ -50,6 +50,7 @@ let Security = {
                     } else {
                         if (!data.data) {
                             store.token = "";
+                            store.user = {};
                             document.cookie =
                                 "_site_data=; Path=/; " +
                                 "SameSite=strict; Secure; " +
